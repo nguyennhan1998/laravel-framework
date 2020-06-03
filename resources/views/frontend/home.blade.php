@@ -10,11 +10,7 @@
                             <i class="fa fa-bars"></i>
                             <span>All departments</span>
                         </div>
-                        <ul>
-                            @foreach($categories as $category)
-                                <li><a href="#">{{$category->__get("category_name")}}</a></li>
-                            @endforeach
-                        </ul>
+                        <x-frontend.sidebar_items/>
                     </div>
                 </div>
                 <div class="col-lg-9">
@@ -44,7 +40,6 @@
                             <span>FRUIT FRESH</span>
                             <h2>Vegetable <br />100% Organic</h2>
                             <p>Free Pickup and Delivery Available</p>
-                            <a href="#" class="primary-btn">SHOP NOW</a>
                             <a href="#" class="primary-btn">SHOP NOW</a>
                         </div>
                     </div>
