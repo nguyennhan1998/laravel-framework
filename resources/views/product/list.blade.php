@@ -50,8 +50,8 @@
                         <td>{{$product->__get("created_at")}}</td>
                         <td>{{$product->__get("updated_at")}}</td>
                         <td>
-                            <a href="{{url("admin//edit-product/{$product->__get("id")}")}}" class="btn btn-outline-warning">Edit</a>
-                            <form action="{{url("admin//delete-product/{$product->__get("id")}")}}" method="post">
+                            <a href="{{url("admin/edit-product/{$product->__get("id")}")}}" class="btn btn-outline-warning">Edit</a>
+                            <form action="{{url("admin/delete-product/{$product->__get("id")}")}}" method="post">
                                 @method("DELETE")
                                 @csrf
                                 <button type="submit" onclick="return confirm('are you sure?');" class="btn btn-outline-danger">delete</button>

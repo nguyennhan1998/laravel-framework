@@ -87,6 +87,66 @@ class WebController extends Controller
         }
         return redirect()->to("admin/list-category");
     }
+    //product
+    public function editProduct($id){
+        $product = Product::findOrFail($id);
+        $category = Category::all();
+        $brand = Brand::all();
+        return view("product.edit",["product"=>$product,"categories"=>$category,"brands"=>$brand]);
+    }
+
+    public function updateProduct($id,Request $request){
+        $product = Product::findOrFail($id);
+        $request->validate([
+            "product_name" => "required|min:3|unique:products,product_name,{$id}",
+            "product_desc" => "required",
+            "product_color"=>"required|string|min:2",
+            "product_size"=>"required|string",
+            "price" => "required|numeric|min:0",
+            "qty" => "required|numeric|min:1",
+            "category_id" => "required",
+            "brand_id" => "required",
+        ]);
+
+        try {
+            $product_image = $product->get("product_image");
+            if($request->hasFile("product_image")){
+                $file = $request->file("product_image");
+                $allow = ["png","jpg","jpeg","gif"];
+                $extName = $file->getClientOriginalExtension();
+                if(in_array($extName,$allow)){
+                    $fileName = time().$file->getClientOriginalName(); //  lấy tên gốc original của file gửi lên từ client
+                    $file->move(public_path("media"),$fileName); // đẩy file vào thư mục media với tên là fileName
+                    //convert string to ProductImage
+                    $product_image = "media/".$fileName; // lấy nguồn file
+                }
+            }
+            $product->update([
+                "product_name"=>$request->get("product_name"),
+                "product_image"=>$product_image,
+                "product_desc"=>$request->get("product_desc"),
+                "product_color"=>$request->get("product_color"),
+                "product_size"=>$request->get("product_size"),
+                "price"=>$request->get("price"),
+                "qty"=>$request->get("qty"),
+                "category_id"=>$request->get("category_id"),
+                "brand_id"=>$request->get("brand_id"),
+            ]);
+        }catch (\Exception $exception){
+            return redirect()->back();
+        }
+        return redirect()->to("admin/list-product");
+    }
+
+    public function deleteProduct($id){
+        $product = Product::findOrfail($id);
+        try {
+            $product->delete();
+        }catch (\Exception $exception){
+
+        }
+        return redirect()->to("admin/list-product");
+    }
 
     public function listProduct(){
 //        $products = Product::leftJoin("categories","categories.id","=","products.category_id")
@@ -146,6 +206,7 @@ class WebController extends Controller
         }
         return redirect()->to("admin/list-product");
     }
+
     //brand
     public function listBrand(){
         $brands =Brand::all();

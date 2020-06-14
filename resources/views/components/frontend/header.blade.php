@@ -19,7 +19,7 @@
                             <a href="#"><i class="fa fa-pinterest-p"></i></a>
                         </div>
                         <div class="header__top__right__language">
-                            <img src="img/language.png" alt="">
+                            <img src="{{asset("img/language.png")}}" alt="">
                             <div>English</div>
                             <span class="arrow_carrot-down"></span>
                             <ul>
@@ -28,7 +28,20 @@
                             </ul>
                         </div>
                         <div class="header__top__right__auth">
-                            <a href="#"><i class="fa fa-user"></i> Login</a>
+                            @guest
+                                <a href="{{url("/login")}}"><i class="fa fa-user"></i> Login</a>
+                            @else
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                      style="display: none;">
+                                    @csrf
+                                </form>
+                            @endguest
                         </div>
                     </div>
                 </div>
@@ -39,7 +52,7 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="header__logo">
-                    <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                    <a href="{{url("/")}}"><img src="{{asset("img/logo.png")}}" alt=""></a>
                 </div>
             </div>
             <div class="col-lg-6">
@@ -62,11 +75,27 @@
             </div>
             <div class="col-lg-3">
                 <div class="header__cart">
+                    @php
+                        $myCart = session()->has("my_cart")?session("my_cart"):[];
+                        $count_item  = count($myCart);
+                        $productIds = [];
+                        foreach ($myCart as $item){
+                            $productIds[] = $item["product_id"];
+                        }
+                        $grandTotal = 0;
+                        $products = \App\Product::find($productIds);
+                        foreach ($products as $p){
+                            foreach ($myCart as $item){
+                                if($p->__get("id") == $item["product_id"])
+                                    $grandTotal += ($p->__get("price")*$item["qty"]);
+                            }
+                        }
+                    @endphp
                     <ul>
                         <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                        <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                        <li><a href="{{url("/shopping-cart")}}"><i class="fa fa-shopping-bag"></i> <span>{{$count_item}}</span></a></li>
                     </ul>
-                    <div class="header__cart__price">item: <span>$150.00</span></div>
+                    <div class="header__cart__price">item: <span>${{$grandTotal}}</span></div>
                 </div>
             </div>
         </div>

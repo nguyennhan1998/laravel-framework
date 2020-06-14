@@ -61,9 +61,10 @@
                     <div class="breadcrumb__text">
                         <h2>Vegetable’s Package</h2>
                         <div class="breadcrumb__option">
-                            <a href="./index.html">Home</a>
-                            <a href="./index.html">Vegetables</a>
-                            <span>Vegetable’s Package</span>
+                            ( <a href="{{url("/")}}">Home</a>
+                            ) <a
+                                href="{{$product->Category->getCategoryUrl()}}">{{$product->Category->__get("category_name")}}</a>
+                            <span>{{$product->__get("product_name")}}</span>
                         </div>
                     </div>
                 </div>
@@ -82,16 +83,16 @@
                             <img class="product__details__pic__item--large"
                                  src="{{$product->getImage()}}" alt="">
                         </div>
-                        <div class="product__details__pic__slider owl-carousel">
-                            <img data-imgbigurl="{{asset("img/product/details/product-details-2.jpg")}}"
-                                 src="{{asset("img/product/details/thumb-1.jpg")}}" alt="">
-                            <img data-imgbigurl="{{asset("img/product/details/product-details-3.jpg")}}"
-                                 src="{{asset("img/product/details/thumb-2.jpg")}}" alt="">
-                            <img data-imgbigurl="{{asset("img/product/details/product-details-5.jpg")}}"
-                                 src="{{asset("img/product/details/thumb-3.jpg")}}" alt="">
-                            <img data-imgbigurl="{{asset("img/product/details/product-details-4.jpg")}}"
-                                 src="{{asset("img/product/details/thumb-4.jpg")}}" alt="">
-                        </div>
+                        {{--                        <div class="product__details__pic__slider owl-carousel">--}}
+                        {{--                            <img data-imgbigurl="{{asset("img/product/details/product-details-2.jpg")}}"--}}
+                        {{--                                 src="{{asset("img/product/details/thumb-1.jpg")}}" alt="">--}}
+                        {{--                            <img data-imgbigurl="{{asset("img/product/details/product-details-3.jpg")}}"--}}
+                        {{--                                 src="{{asset("img/product/details/thumb-2.jpg")}}" alt="">--}}
+                        {{--                            <img data-imgbigurl="{{asset("img/product/details/product-details-5.jpg")}}"--}}
+                        {{--                                 src="{{asset("img/product/details/thumb-3.jpg")}}" alt="">--}}
+                        {{--                            <img data-imgbigurl="{{asset("img/product/details/product-details-4.jpg")}}"--}}
+                        {{--                                 src="{{asset("img/product/details/thumb-4.jpg")}}" alt="">--}}
+                        {{--                        </div>--}}
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
@@ -106,18 +107,22 @@
                             <span>(18 reviews)</span>
                         </div>
                         <div class="product__details__price">{{$product->getPrice()}}</div>
-                        <p>Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam
-                            vehicula elementum sed sit amet dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet
-                            quam vehicula elementum sed sit amet dui. Proin eget tortor risus.</p>
-                        <div class="product__details__quantity">
-                            <div class="quantity">
-                                <div class="pro-qty">
-                                    <input type="text" value="1">
+                        <p>
+                            {{$product->__get("product_desc")}}
+                        </p>
+                        <form method="POST" action="{{url("/cart/add/{$product->__get("id")}")}}">
+                            @method("POST")
+                            @csrf
+                            <div class="product__details__quantity">
+                                <div class="quantity">
+                                    <div class="pro-qty">
+                                        <input name="qty" type="text" value="1">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <a href="#" class="primary-btn">ADD TO CARD</a>
-                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                            <button type="submit" class="primary-btn">ADD TO CARD</button>
+                            <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                        </form>
                         <ul>
                             <li><b>Availability</b> <span>In Stock</span></li>
                             <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
@@ -293,4 +298,4 @@
         </div>
     </section>
     <!-- Related Product Section End -->
-    @endsection
+@endsection
