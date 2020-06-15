@@ -16,7 +16,7 @@ class CleanCart
      */
     public function __construct()
     {
-        //
+
     }
 
     /**
