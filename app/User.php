@@ -20,7 +20,7 @@ class User extends Authenticatable
         'name','image', 'email','telephone','address', 'password',
     ];
     public const ADMIN_ROLE=1;
-    public const USER_ROLE=0;
+    public const USER_ROLE=1;
     /**
      * The attributes that should be hidden for arrays.
      *
