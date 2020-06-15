@@ -70,7 +70,7 @@ class HomeController extends Controller
 
             ])->render();
             $now=Carbon::now();
-            Cache::put("home_page",$now->addMinute(20));
+            Cache::put("home_page",$view,$now->addMinute(20));
 
         }
         return Cache::get("home_page");
