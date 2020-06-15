@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-require_once "user.php";
+require_once "User.php";
 
 Route::group(["middleware"=>["admin","auth"],"prefix"=>"admin"],function (){
-    require_once "admin.php";
+    require_once "Admin.php";
 });
