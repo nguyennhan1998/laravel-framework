@@ -50,7 +50,7 @@ class HomeController extends Controller
 //        }
             //die("home");
             // $categories=Category::orderBy("created_at","ASC")->get();
-            $featureds = Product::orderBy("updated_at", "DESC")->limit(8)->get();
+            $featureds = Product::orderBy("updated_at", "DESC")->limit(12)->get();
             $lastest_1 = Product::orderBy("created_at", "DESC")->limit(3)->get();
             $lastest_2 = Product::orderBy("created_at", "DESC")->offset(3)->limit(3)->get();
 //            $cache=[
